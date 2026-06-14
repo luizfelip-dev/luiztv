@@ -1,4 +1,11 @@
-const playlistUrl = "https://iptv-org.github.io/iptv/countries/br.m3u";
+const playlistUrls = [
+  "https://iptv-org.github.io/iptv/countries/br.m3u",
+  "https://iptv-org.github.io/iptv/categories/news.m3u",
+  "https://iptv-org.github.io/iptv/categories/sports.m3u",
+  "https://iptv-org.github.io/iptv/categories/movies.m3u",
+  "https://iptv-org.github.io/iptv/categories/entertainment.m3u"
+];
+
 
 const video = document.getElementById("video");
 const channelName = document.getElementById("channel-name");
