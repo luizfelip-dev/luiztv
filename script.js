@@ -1,8 +1,8 @@
 const playlistUrls = [
-"https://github.com/iptv-org/iptv/blob/master/streams/us_pluto.m3u",
-"https://github.com/iptv-org/iptv/blob/master/streams/br_pluto.m3u",
-"https://github.com/iptv-org/iptv/blob/master/streams/br.m3u",
-"https://github.com/iptv-org/iptv/blob/master/streams/us_xumo.m3u"
+  "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/br.m3u",
+  "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_pluto.m3u",
+  "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/br_pluto.m3u",
+  "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_xumo.m3u"
 ];
 
 const video = document.getElementById("video");
