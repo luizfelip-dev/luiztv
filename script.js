@@ -16,10 +16,15 @@ let channels = [];
 
 async function loadPlaylist() {
   try {
-    const response = await fetch(playlistUrl);
-    const text = await response.text();
+    let allChannels = [];
 
-    channels = parseM3U(text);
+    for (const url of playlistUrls) {
+      const response = await fetch(url);
+      const text = await response.text();
+      allChannels = allChannels.concat(parseM3U(text));
+    }
+
+    channels = allChannels;
     showChannels(channels);
   } catch (error) {
     channelsList.innerHTML = "<p>Erro ao carregar canais.</p>";
