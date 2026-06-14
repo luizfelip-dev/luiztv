@@ -1,4 +1,9 @@
-const playlistUrls = "https://github.com/iptv-com/iptv/raw/refs/heads/main/lists/brazil.m3u";
+const playlistUrls = [
+"https://github.com/iptv-org/iptv/blob/master/streams/us_pluto.m3u",
+"https://github.com/iptv-org/iptv/blob/master/streams/br_pluto.m3u",
+"https://github.com/iptv-org/iptv/blob/master/streams/br.m3u",
+"https://github.com/iptv-org/iptv/blob/master/streams/us_xumo.m3u"
+];
 
 const video = document.getElementById("video");
 const channelName = document.getElementById("channel-name");
