@@ -1,35 +1,39 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LuizTV</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+<header class="navbar">
+  <div class="logo">LuizTV</div>
 
-  <header class="hero">
-    <nav>
-      <h1>LuizTV</h1>
-      <input type="text" id="search" placeholder="Buscar canais..." />
-    </nav>
+  <div class="nav-links">
+    <button onclick="filterCategory('all')">Início</button>
+    <button onclick="filterCategory('Sports')">⚽ Esportes</button>
+    <button onclick="filterCategory('News')">📰 Notícias</button>
+    <button onclick="filterCategory('Music')">🎵 Música</button>
+    <button onclick="filterCategory('Kids')">🧒 Infantil</button>
+    <button onclick="showFavorites()">⭐ Favoritos</button>
+    <button onclick="showMostWatched()">🔥 Mais vistos</button>
+  </div>
 
-    <div class="hero-content">
-      <h2 id="channel-name">Escolha um canal</h2>
-      <p>Canais públicos IPTV-org organizados por categoria.</p>
-      <video id="video" controls autoplay></video>
+  <input id="search" placeholder="Buscar canal..." />
+</header>
+
+<section class="banner">
+  <div class="banner-info">
+    <h1 id="channel-name">LuizTV</h1>
+    <p id="channel-desc">Escolha um canal para assistir.</p>
+
+    <div class="banner-buttons">
+      <button id="favoriteBtn">⭐ Favoritar</button>
     </div>
-  </header>
+  </div>
 
-  <main id="categories">
-    <p class="loading">Carregando canais...</p>
-  </main>
+  <video id="video" controls autoplay></video>
+</section>
 
-  <footer>
-    <p>Fonte: IPTV-org • Projeto para estudos</p>
-  </footer>
+<main id="categories">
+  <p class="loading">Carregando canais...</p>
+</main>
 
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-  <script src="script.js"></script>
-</body>
-</html>
+<footer>
+  Fonte: vibe coder total pqp kkkk
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="script.js"></script>
