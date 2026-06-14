@@ -7,29 +7,26 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>LuizTV</h1>
-    <p>Canais IPTV públicos do Brasil</p>
+
+  <header class="hero">
+    <nav>
+      <h1>LuizTV</h1>
+      <input type="text" id="search" placeholder="Buscar canais..." />
+    </nav>
+
+    <div class="hero-content">
+      <h2 id="channel-name">Escolha um canal</h2>
+      <p>Canais públicos IPTV-org organizados por categoria.</p>
+      <video id="video" controls autoplay></video>
+    </div>
   </header>
 
-  <main>
-    <section class="player-area">
-      <h2 id="channel-name">Escolha um canal</h2>
-
-      <video id="video" controls autoplay></video>
-    </section>
-
-    <section class="channels-area">
-      <input type="text" id="search" placeholder="Buscar canal..." />
-
-      <div id="channels-list">
-        <p>Carregando canais...</p>
-      </div>
-    </section>
+  <main id="categories">
+    <p class="loading">Carregando canais...</p>
   </main>
 
   <footer>
-    <p>Fonte: IPTV-org</p>
+    <p>Fonte: IPTV-org • Projeto para estudos</p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>

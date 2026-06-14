@@ -1,33 +1,22 @@
-const playlistUrls = [
-  "https://iptv-org.github.io/iptv/countries/br.m3u",
-  "https://iptv-org.github.io/iptv/categories/news.m3u",
-  "https://iptv-org.github.io/iptv/categories/sports.m3u",
-  "https://iptv-org.github.io/iptv/categories/movies.m3u",
-  "https://iptv-org.github.io/iptv/categories/entertainment.m3u"
-];
-
+const playlistUrl = "https://iptv-org.github.io/iptv/index.m3u";
 
 const video = document.getElementById("video");
 const channelName = document.getElementById("channel-name");
-const channelsList = document.getElementById("channels-list");
+const categoriesContainer = document.getElementById("categories");
 const searchInput = document.getElementById("search");
 
 let channels = [];
+let hls;
 
 async function loadPlaylist() {
   try {
-    let allChannels = [];
+    const response = await fetch(playlistUrl);
+    const text = await response.text();
 
-    for (const url of playlistUrls) {
-      const response = await fetch(url);
-      const text = await response.text();
-      allChannels = allChannels.concat(parseM3U(text));
-    }
-
-    channels = allChannels;
-    showChannels(channels);
+    channels = parseM3U(text);
+    renderCategories(channels);
   } catch (error) {
-    channelsList.innerHTML = "<p>Erro ao carregar canais.</p>";
+    categoriesContainer.innerHTML = "<p class='loading'>Erro ao carregar canais.</p>";
     console.error(error);
   }
 }
@@ -40,9 +29,10 @@ function parseM3U(data) {
     const line = lines[i].trim();
 
     if (line.startsWith("#EXTINF")) {
-      const name = line.split(",").pop();
+      const name = line.split(",").pop()?.trim();
       const logoMatch = line.match(/tvg-logo="(.*?)"/);
       const groupMatch = line.match(/group-title="(.*?)"/);
+      const countryMatch = line.match(/tvg-country="(.*?)"/);
 
       const url = lines[i + 1]?.trim();
 
@@ -50,7 +40,8 @@ function parseM3U(data) {
         result.push({
           name: name || "Canal sem nome",
           logo: logoMatch ? logoMatch[1] : "",
-          group: groupMatch ? groupMatch[1] : "Sem categoria",
+          group: groupMatch ? groupMatch[1] : "Outros",
+          country: countryMatch ? countryMatch[1] : "Global",
           url: url
         });
       }
@@ -60,34 +51,67 @@ function parseM3U(data) {
   return result;
 }
 
-function showChannels(list) {
-  channelsList.innerHTML = "";
+function renderCategories(list) {
+  categoriesContainer.innerHTML = "";
 
-  if (list.length === 0) {
-    channelsList.innerHTML = "<p>Nenhum canal encontrado.</p>";
-    return;
-  }
+  const grouped = {};
 
   list.forEach(channel => {
-    const div = document.createElement("div");
-    div.className = "channel";
+    const category = channel.group || "Outros";
 
-    div.innerHTML = `
-      <strong>${channel.name}</strong>
-      <span>${channel.group}</span>
-    `;
+    if (!grouped[category]) {
+      grouped[category] = [];
+    }
 
-    div.onclick = () => playChannel(channel);
-
-    channelsList.appendChild(div);
+    grouped[category].push(channel);
   });
+
+  const categoryNames = Object.keys(grouped).sort();
+
+  categoryNames.forEach(category => {
+    const section = document.createElement("section");
+    section.className = "category";
+
+    const title = document.createElement("h2");
+    title.textContent = category;
+
+    const row = document.createElement("div");
+    row.className = "row";
+
+    grouped[category].slice(0, 80).forEach(channel => {
+      row.appendChild(createCard(channel));
+    });
+
+    section.appendChild(title);
+    section.appendChild(row);
+    categoriesContainer.appendChild(section);
+  });
+}
+
+function createCard(channel) {
+  const card = document.createElement("div");
+  card.className = "card";
+
+  card.innerHTML = `
+    ${channel.logo ? `<img src="${channel.logo}" alt="${channel.name}">` : ""}
+    <strong>${channel.name}</strong>
+    <span>${channel.country}</span>
+  `;
+
+  card.onclick = () => playChannel(channel);
+
+  return card;
 }
 
 function playChannel(channel) {
   channelName.textContent = channel.name;
 
+  if (hls) {
+    hls.destroy();
+  }
+
   if (Hls.isSupported()) {
-    const hls = new Hls();
+    hls = new Hls();
     hls.loadSource(channel.url);
     hls.attachMedia(video);
   } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
@@ -100,12 +124,18 @@ function playChannel(channel) {
 searchInput.addEventListener("input", () => {
   const search = searchInput.value.toLowerCase();
 
+  if (search.trim() === "") {
+    renderCategories(channels);
+    return;
+  }
+
   const filtered = channels.filter(channel =>
     channel.name.toLowerCase().includes(search) ||
-    channel.group.toLowerCase().includes(search)
+    channel.group.toLowerCase().includes(search) ||
+    channel.country.toLowerCase().includes(search)
   );
 
-  showChannels(filtered);
+  renderCategories(filtered);
 });
 
 loadPlaylist();

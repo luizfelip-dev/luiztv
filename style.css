@@ -4,87 +4,149 @@
 
 body {
   margin: 0;
+  background: #0b0b0b;
+  color: white;
   font-family: Arial, sans-serif;
-  background: #111;
+}
+
+.hero {
+  min-height: 70vh;
+  padding: 20px;
+  background: linear-gradient(to bottom, #111, #0b0b0b);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+nav h1 {
+  color: #e50914;
+  font-size: 34px;
+  margin: 0;
+}
+
+#search {
+  width: 320px;
+  max-width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  background: #222;
   color: white;
 }
 
-header {
-  text-align: center;
-  padding: 25px 15px;
-  background: #181818;
-}
-
-header h1 {
-  margin: 0;
-  font-size: 36px;
-}
-
-header p {
-  margin: 8px 0 0;
-  color: #aaa;
-}
-
-main {
-  max-width: 1100px;
+.hero-content {
+  max-width: 1000px;
   margin: auto;
-  padding: 20px;
 }
 
-.player-area {
-  background: #1b1b1b;
-  padding: 15px;
-  border-radius: 12px;
-  margin-bottom: 20px;
+.hero-content h2 {
+  font-size: 32px;
+  margin-bottom: 5px;
 }
 
-#channel-name {
-  margin-top: 0;
+.hero-content p {
+  color: #bbb;
 }
 
 video {
   width: 100%;
+  max-height: 520px;
   background: black;
-  border-radius: 10px;
-  max-height: 550px;
-}
-
-.channels-area {
-  background: #1b1b1b;
-  padding: 15px;
   border-radius: 12px;
+  margin-top: 15px;
 }
 
-#search {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  font-size: 16px;
+main {
+  padding: 20px;
 }
 
-.channel {
+.category {
+  margin-bottom: 35px;
+}
+
+.category h2 {
+  font-size: 24px;
+  margin-left: 5px;
+}
+
+.row {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  padding: 10px 5px 18px;
+}
+
+.row::-webkit-scrollbar {
+  height: 8px;
+}
+
+.row::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 10px;
+}
+
+.card {
+  min-width: 180px;
+  height: 120px;
+  background: #1f1f1f;
+  border-radius: 10px;
   padding: 12px;
-  border-bottom: 1px solid #333;
   cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.channel:hover {
-  background: #292929;
+.card:hover {
+  transform: scale(1.06);
+  background: #2b2b2b;
 }
 
-.channel strong {
-  display: block;
+.card img {
+  max-width: 100%;
+  max-height: 45px;
+  object-fit: contain;
+  align-self: center;
 }
 
-.channel span {
-  color: #aaa;
+.card strong {
   font-size: 14px;
+}
+
+.card span {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.loading {
+  text-align: center;
+  color: #aaa;
 }
 
 footer {
   text-align: center;
-  padding: 20px;
   color: #777;
+  padding: 25px;
+}
+
+@media (max-width: 700px) {
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-content h2 {
+    font-size: 24px;
+  }
+
+  .card {
+    min-width: 150px;
+  }
 }
