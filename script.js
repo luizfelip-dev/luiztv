@@ -1,4 +1,12 @@
-const playlistUrl = "https://iptv-org.github.io/iptv/index.m3u";
+const playlistUrls = [
+  "https://iptv-org.github.io/iptv/countries/br.m3u",
+  "https://iptv-org.github.io/iptv/categories/news.m3u",
+  "https://iptv-org.github.io/iptv/categories/sports.m3u",
+  "https://iptv-org.github.io/iptv/categories/entertainment.m3u",
+  "https://iptv-org.github.io/iptv/categories/movies.m3u",
+  "https://iptv-org.github.io/iptv/categories/kids.m3u",
+  "https://iptv-org.github.io/iptv/categories/music.m3u"
+];
 
 const video = document.getElementById("video");
 const channelName = document.getElementById("channel-name");
@@ -10,15 +18,30 @@ let hls;
 
 async function loadPlaylist() {
   try {
-    const response = await fetch(playlistUrl);
-    const text = await response.text();
+    let allChannels = [];
 
-    channels = parseM3U(text);
+    for (const url of playlistUrls) {
+      const response = await fetch(url);
+      const text = await response.text();
+      allChannels = allChannels.concat(parseM3U(text));
+    }
+
+    channels = removeDuplicates(allChannels);
     renderCategories(channels);
   } catch (error) {
     categoriesContainer.innerHTML = "<p class='loading'>Erro ao carregar canais.</p>";
     console.error(error);
   }
+}
+
+function removeDuplicates(list) {
+  const seen = new Set();
+
+  return list.filter(channel => {
+    if (seen.has(channel.url)) return false;
+    seen.add(channel.url);
+    return true;
+  });
 }
 
 function parseM3U(data) {
