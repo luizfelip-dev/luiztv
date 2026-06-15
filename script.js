@@ -1,14 +1,11 @@
 const playlistUrls = [
+  "https://iptv-org.github.io/iptv/countries/br.m3u",
+  "https://iptv-org.github.io/iptv/languages/por.m3u",
   "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/br.m3u",
-  "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_pluto.m3u",
   "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/br_pluto.m3u",
-  "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_xumo.m3u",
-"https://iptv-org.github.io/iptv/countries/br.m3u",
-  "https://iptv-org.github.io/iptv/categories/sports.m3u",
-  "https://iptv-org.github.io/iptv/categories/news.m3u",
-  "https://iptv-org.github.io/iptv/categories/music.m3u",
-  "https://iptv-org.github.io/iptv/categories/kids.m3u",
-  "https://iptv-org.github.io/iptv/categories/entertainment.m3u"
+  "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_pluto.m3u",
+  "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_xumo.m3u"
+];
 ];
 
 const video = document.getElementById("video");
