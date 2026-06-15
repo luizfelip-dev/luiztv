@@ -25,7 +25,8 @@ let watched = JSON.parse(localStorage.getItem("watched")) || {};
 async function loadPlaylist() {
   let allChannels = [];
 
-  categoriesContainer.innerHTML = "<p class='loading'>Carregando canais...</p>";
+  categoriesContainer.innerHTML =
+    "<p class='loading'>Carregando canais...</p>";
 
   for (const url of playlistUrls) {
     try {
@@ -39,20 +40,34 @@ async function loadPlaylist() {
       const text = await response.text();
       const parsed = parseM3U(text);
 
-      console.log("Canais carregados de:", url, parsed.length);
+      console.log(
+        "Canais carregados de:",
+        url,
+        parsed.length
+      );
 
       allChannels = allChannels.concat(parsed);
+
     } catch (error) {
-      console.warn("Erro nessa playlist:", url, error);
+      console.warn(
+        "Erro nessa playlist:",
+        url,
+        error
+      );
     }
   }
 
   channels = removeDuplicates(allChannels);
 
+  console.log(
+    "Total de canais:",
+    channels.length
+  );
+
   if (channels.length === 0) {
     categoriesContainer.innerHTML = `
       <p class="loading">
-        Nenhum canal carregado. Abra o F12 → Console para ver o erro.
+        Nenhum canal carregado.
       </p>
     `;
     return;
@@ -60,16 +75,6 @@ async function loadPlaylist() {
 
   renderHome();
 }
-  channels = removeDuplicates(allChannels);
-
-  if (channels.length === 0) {
-    categoriesContainer.innerHTML = "<p class='loading'>Nenhum canal carregado.</p>";
-    return;
-  }
-
-  renderHome();
-}
-
 function parseM3U(data) {
   const lines = data.split("\n");
   const result = [];
