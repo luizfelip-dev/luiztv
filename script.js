@@ -1,11 +1,11 @@
 const playlistUrls = [
   "https://iptv-org.github.io/iptv/countries/br.m3u",
   "https://iptv-org.github.io/iptv/languages/por.m3u",
-  "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/br.m3u",
-  "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/br_pluto.m3u",
-  "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_pluto.m3u",
-  "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_xumo.m3u"
-];
+  "https://iptv-org.github.io/iptv/categories/news.m3u",
+  "https://iptv-org.github.io/iptv/categories/sports.m3u",
+  "https://iptv-org.github.io/iptv/categories/music.m3u",
+  "https://iptv-org.github.io/iptv/categories/kids.m3u",
+  "https://iptv-org.github.io/iptv/categories/entertainment.m3u"
 ];
 
 const video = document.getElementById("video");
@@ -25,22 +25,41 @@ let watched = JSON.parse(localStorage.getItem("watched")) || {};
 async function loadPlaylist() {
   let allChannels = [];
 
+  categoriesContainer.innerHTML = "<p class='loading'>Carregando canais...</p>";
+
   for (const url of playlistUrls) {
     try {
       const response = await fetch(url);
 
       if (!response.ok) {
-        console.log("Playlist não encontrada:", url);
+        console.warn("Playlist não carregou:", url);
         continue;
       }
 
       const text = await response.text();
-      allChannels = allChannels.concat(parseM3U(text));
+      const parsed = parseM3U(text);
+
+      console.log("Canais carregados de:", url, parsed.length);
+
+      allChannels = allChannels.concat(parsed);
     } catch (error) {
-      console.log("Erro ao carregar:", url, error);
+      console.warn("Erro nessa playlist:", url, error);
     }
   }
 
+  channels = removeDuplicates(allChannels);
+
+  if (channels.length === 0) {
+    categoriesContainer.innerHTML = `
+      <p class="loading">
+        Nenhum canal carregado. Abra o F12 → Console para ver o erro.
+      </p>
+    `;
+    return;
+  }
+
+  renderHome();
+}
   channels = removeDuplicates(allChannels);
 
   if (channels.length === 0) {
